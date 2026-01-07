@@ -19,7 +19,6 @@ class PlayerEntryFrame(ctk.CTkFrame):
 
         super().__init__(master)
 
-        
 
         ####
         self.text_label_frame = ctk.CTkFrame(self)
@@ -31,11 +30,16 @@ class PlayerEntryFrame(ctk.CTkFrame):
         self.label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
         self.player_entry = ctk.CTkEntry(self.text_label_frame)
+        self.player_entry.bind("<KeyPress>", self.run_add_player)
         self.player_entry.grid(row=0, column=1, padx=10, pady=10, sticky="e")
         ####
 
-        self.button = ctk.CTkButton(self, text="Add Player", command=add_player_to_clue_solver)
+        self.button = ctk.CTkButton(self, text="Add Player")
         self.button.pack(padx=10, pady=10)
+
+    def run_add_player(self, event) -> None:
+        if event.keysym == "Return":
+            add_player_to_clue_solver()
     
 def add_player_to_clue_solver() -> None:
     if len(cs.player_entry_frame.player_entry.get()) > 0:
