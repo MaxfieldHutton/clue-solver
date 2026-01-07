@@ -38,10 +38,12 @@ class PlayerEntryFrame(ctk.CTkFrame):
         self.button.pack(padx=10, pady=10)
     
 def add_player_to_clue_solver() -> None:
-    print(f"Added Player {cs.player_entry_frame.player_entry.get()}")
-    cs.frame = PlayerFrame(cs)
-    cs.frame.setName(f"{cs.player_entry_frame.player_entry.get()}")
-    cs.frame.pack(padx=10, pady=10,side="left", expand=True, fill="both")
+    if len(cs.player_entry_frame.player_entry.get()) > 0:
+        print(f"Added Player {cs.player_entry_frame.player_entry.get()}")
+        cs.frame = PlayerFrame(cs)
+        cs.frame.setName(f"{cs.player_entry_frame.player_entry.get()}")
+        cs.frame.pack(padx=10, pady=10,side="left", expand=True, fill="both")
+        cs.player_entry_frame.player_entry.delete(0, 'end')
 
 
 class ClueSolver(ctk.CTk):
