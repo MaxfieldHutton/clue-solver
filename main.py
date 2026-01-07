@@ -8,26 +8,41 @@ class PlayerFrame(ctk.CTkFrame):
 
         super().__init__(master)
 
+        
+    def setName(self, name: str) -> None:
+        self.label = ctk.CTkLabel(self, text=name, font=('Arial', 14))
+        self.label.pack(padx=10, pady=10)
+
 class PlayerEntryFrame(ctk.CTkFrame):
 
     def __init__(self, master) -> None:
 
         super().__init__(master)
 
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure(0, weight=1)
+        
 
-        self.label = ctk.CTkLabel(self, text="Enter Player Name", font=('Arial', 14))
+        ####
+        self.text_label_frame = ctk.CTkFrame(self)
+        self.text_label_frame.grid_columnconfigure(0, weight=1)
+        self.text_label_frame.grid_rowconfigure(0, weight=1)
+        self.text_label_frame.pack(padx=10, pady=10)
+
+        self.label = ctk.CTkLabel(self.text_label_frame, text="Enter Player Name", font=('Arial', 14))
         self.label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
-        self.player_entry = ctk.CTkEntry(self)
+        self.player_entry = ctk.CTkEntry(self.text_label_frame)
         self.player_entry.grid(row=0, column=1, padx=10, pady=10, sticky="e")
+        ####
 
-        self.button = ctk.CTkButton(self, text="Add Player", command=self.button_callback)
-        self.button.grid(row=1, column=1, padx=10, pady=10, sticky="e"+"w")
+        self.button = ctk.CTkButton(self, text="Add Player", command=add_player_to_clue_solver)
+        self.button.pack(padx=10, pady=10)
     
-    def button_callback(self):
-        print(f"Added Player {self.player_entry.get()}")
+def add_player_to_clue_solver() -> None:
+    print(f"Added Player {cs.player_entry_frame.player_entry.get()}")
+    cs.frame = PlayerFrame(cs)
+    cs.frame.setName(f"{cs.player_entry_frame.player_entry.get()}")
+    cs.frame.pack(padx=10, pady=10,side="left", expand=True, fill="both")
+
 
 class ClueSolver(ctk.CTk):
 
@@ -44,6 +59,7 @@ class ClueSolver(ctk.CTk):
 
         self.player_entry_frame = PlayerEntryFrame(self)
         self.player_entry_frame.pack(padx=10, pady=10)
+      
 
         
         
@@ -52,7 +68,7 @@ class ClueSolver(ctk.CTk):
         for players in self.player_amount_box.get():
             print(f"test {players}")
 
-    def shortcut(self, event):
+    def shortcut(self, event) -> None:
         if event.state == 4 and event.keysym == "Return":
             self.show_message()
 
