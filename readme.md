@@ -1,2 +1,1 @@
-##Solver/Helper for the board game clue written in python using the customtkinter library 
-
+## Solver/Helper for the board game clue written in python using the customtkinter library 
